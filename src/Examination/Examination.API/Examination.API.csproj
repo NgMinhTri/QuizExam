@@ -2,10 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>3be5856d-7dca-4477-8971-0be81da49491</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.15.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Examination.Infrastructure\Examination.Infrastructure.csproj" />
+    <ProjectReference Include="..\Examination.Domain\Examination.Domain.csproj" />
+    <ProjectReference Include="..\Examination.Application\Examination.Application.csproj" />
   </ItemGroup>
 
 </Project>
