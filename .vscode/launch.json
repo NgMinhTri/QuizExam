@@ -6,18 +6,38 @@
     "compounds": [
         {
             "name": "Run All Solutions",
-            "configurations": ["Identity API", "Exam API"]
+            "configurations": ["Identity.STS.Identity", "Exam API", "Identity.Admin"]
         }
     ],
     "configurations": [
+        // {
+        //     "name": "Identity API",
+        //     "type": "coreclr",
+        //     "request": "launch",
+        //     "preLaunchTask": "build",
+        //     "program": "${workspaceFolder}/src/Identity/Identity.API/bin/Debug/net5.0/Identity.API.dll",
+        //     "args": [],
+        //     "cwd": "${workspaceFolder}/src/Identity/Identity.API",
+        //     "stopAtEntry": false,
+        //     "serverReadyAction": {
+        //         "action": "openExternally",
+        //         "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+        //     },
+        //     "env": {
+        //         "ASPNETCORE_ENVIRONMENT": "Development"
+        //     },
+        //     "sourceFileMap": {
+        //         "/Views": "${workspaceFolder}/Views"
+        //     }
+        // },
         {
-            "name": "Identity API",
+            "name": "Identity.STS.Identity",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Identity/Identity.API/bin/Debug/net5.0/Identity.API.dll",
+            "program": "${workspaceFolder}/src/Identity/Identity.STS.Identity/bin/Debug/netcoreapp3.1/Identity.STS.Identity.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Identity/Identity.API",
+            "cwd": "${workspaceFolder}/src/Identity/Identity.STS.Identity",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -43,6 +63,26 @@
                 "action": "openExternally",
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
                 "uriFormat": "%s/swagger"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "Identity.Admin",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Identity/Identity.Admin/bin/Debug/netcoreapp3.1/Identity.Admin.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Identity/Identity.Admin",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
