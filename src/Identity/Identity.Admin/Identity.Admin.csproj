@@ -127,6 +127,10 @@
         <ProjectReference Include="..\Identity.Shared\Identity.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Logs\" />
+    </ItemGroup>
+
 </Project>
 
 
