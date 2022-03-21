@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Identity.Shared.Authentication;
 using Identity.Shared.Configuration.Identity;
+using Identity.STS.Identity.Services;
 
 namespace Identity.STS.Identity.Helpers
 {
@@ -344,6 +345,7 @@ namespace Identity.STS.Identity.Helpers
             builder.AddCustomValidationKey(configuration);
             builder.AddExtensionGrantValidator<DelegationGrantValidator>();
 
+            builder.AddCustomUserStore();
             return builder;
         }
 
