@@ -61,7 +61,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.STS.Identity", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{CDC98816-85B1-48B8-9B5D-04D3380F27A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminApp", "src\WebApps\AdminApp\AdminApp.csproj", "{86D37AF4-7EF6-4A56-9738-70BA023BE957}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminApp", "src\WebApps\AdminApp\AdminApp.csproj", "{86D37AF4-7EF6-4A56-9738-70BA023BE957}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F56E22C7-0E79-4865-B24D-CF9B48259B9C}"
 	ProjectSection(SolutionItems) = preProject
