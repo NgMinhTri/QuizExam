@@ -43,10 +43,12 @@ namespace AdminApp.Services
                 ["pageIndex"] = searchInput.PageNumber.ToString(),
                 ["pageSize"] = searchInput.PageSize.ToString()
             };
+
             if (!string.IsNullOrEmpty(searchInput.Name))
                 queryStringParam.Add("searchKeyword", searchInput.Name);
 
-            string url = QueryHelpers.AddQueryString("/api/v1/Categories", queryStringParam);
+
+            string url = QueryHelpers.AddQueryString("/api/v1/categories", queryStringParam);
 
             var result = await _httpClient.GetFromJsonAsync<PagedList<CategoryDto>>(url);
             return result;
