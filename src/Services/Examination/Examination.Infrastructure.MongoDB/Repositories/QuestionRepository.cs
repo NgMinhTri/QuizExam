@@ -2,6 +2,9 @@ using Examination.Domain.AggregateModels.QuestionAggregate;
 using Examination.Infrastructure.SeedWork;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Examination.Infrastructure.Repositories
 {
@@ -10,6 +13,28 @@ namespace Examination.Infrastructure.Repositories
         public QuestionRepository(IMongoClient mongoClient, IOptions<ExamSettings> settings) 
         : base(mongoClient, settings, Constants.Question)
         {
+        }
+
+        public async Task<Question> GetQuestionsByIdAsync(string id)
+        {
+            FilterDefinition<Question> filter = Builders<Question>.Filter.Eq(s => s.Content, id);
+            return await Collection.Find(filter).FirstOrDefaultAsync();
+        }
+
+
+        public async Task<Tuple<List<Question>, long>> GetQuestionsPagingAsync(string searchKeyword, int pageIndex, int pageSize)
+        {
+            FilterDefinition<Question> filter = Builders<Question>.Filter.Empty;
+            if (!string.IsNullOrEmpty(searchKeyword))
+                filter = Builders<Question>.Filter.Eq(s => s.Content, searchKeyword);
+
+            var totalRow = await Collection.Find(filter).CountDocumentsAsync();
+            var items = await Collection.Find(filter)
+                .Skip((pageIndex - 1) * pageSize)
+                .Limit(pageSize)
+                .ToListAsync();
+
+            return new Tuple<List<Question>, long>(items, totalRow);
         }
     }
 }
