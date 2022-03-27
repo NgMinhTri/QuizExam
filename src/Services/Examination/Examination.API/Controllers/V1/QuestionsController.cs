@@ -3,8 +3,8 @@ using Examination.Application.Commands.V1.Questions.DeleteQuestion;
 using Examination.Application.Commands.V1.Questions.UpdateQuestion;
 using Examination.Application.Queries.V1.Questions.GetQuestionById;
 using Examination.Application.Queries.V1.Questions.GetQuestionsPaging;
+using Examination.Dtos.SeedWork;
 using Examination.Shared.Questions;
-using Examination.Shared.SeedWork;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,10 +13,7 @@ using System.Threading.Tasks;
 
 namespace Examination.API.Controllers.V1
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
-    [ApiController]
-    [ApiVersion("1.0")]
-    public class QuestionsController : ControllerBase
+    public class QuestionsController : BaseController
     {
         private readonly IMediator _mediator;
         private readonly ILogger<QuestionsController> _logger;

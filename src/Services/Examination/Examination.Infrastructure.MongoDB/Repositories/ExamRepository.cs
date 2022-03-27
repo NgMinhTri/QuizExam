@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Examination.Domain.AggregateModels.ExamAggregate;
 using Examination.Infrastructure.SeedWork;
+using MediatR;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -9,8 +10,10 @@ namespace Examination.Infrastructure.Repositories
 {
     public class ExamRepository : BaseRepository<Exam>, IExamRepository
     {
-        public ExamRepository(IMongoClient mongoClient, IOptions<ExamSettings> settings) 
-            : base(mongoClient, settings, Constants.Exam)
+        public ExamRepository(
+            IMongoClient mongoClient,
+            IOptions<ExamSettings> settings)
+        : base(mongoClient, settings, Constants.Collections.Exam)
         {
         }
 

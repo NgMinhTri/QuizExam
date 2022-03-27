@@ -1,6 +1,6 @@
 namespace Examination.Infrastructure.SeedWork
 {
-     public class ExamSettings
+    public class ExamSettings
     {
         public string IdentityUrl { get; set; }
 

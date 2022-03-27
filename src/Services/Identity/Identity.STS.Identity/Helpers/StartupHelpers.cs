@@ -347,9 +347,7 @@ namespace Identity.STS.Identity.Helpers
             builder.AddCustomSigningCredential(configuration);
             builder.AddCustomValidationKey(configuration);
             builder.AddExtensionGrantValidator<DelegationGrantValidator>();
-
             builder.AddCustomUserStore();
-
             return builder;
         }
 

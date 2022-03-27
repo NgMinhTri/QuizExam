@@ -1,4 +1,5 @@
-﻿using Examination.Shared.Questions;
+﻿using Examination.Dtos.Categories;
+using Examination.Shared.Questions;
 using MediatR;
 
 namespace Examination.Application.Queries.V1.Questions.GetQuestionById

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Examination.Domain.AggregateModels.CategoryAggregate;
-using Examination.Shared.Categories;
+using Examination.Dtos.Categories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;

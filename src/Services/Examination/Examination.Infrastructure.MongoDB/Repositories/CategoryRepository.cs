@@ -1,5 +1,6 @@
 ﻿using Examination.Domain.AggregateModels.CategoryAggregate;
 using Examination.Infrastructure.SeedWork;
+using MediatR;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
@@ -10,8 +11,11 @@ namespace Examination.Infrastructure.Repositories
 {
     public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
-        public CategoryRepository(IMongoClient mongoClient,IOptions<ExamSettings> settings)
-            : base(mongoClient, settings, Constants.Category)
+        public CategoryRepository(
+          IMongoClient mongoClient,
+          IOptions<ExamSettings> settings,
+          IMediator mediator)
+      : base(mongoClient, settings, Constants.Collections.Category)
         {
         }
 

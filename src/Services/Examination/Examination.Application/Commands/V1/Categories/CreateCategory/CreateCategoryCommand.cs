@@ -1,4 +1,4 @@
-﻿using Examination.Shared.Categories;
+﻿using Examination.Dtos.Categories;
 using MediatR;
 
 namespace Examination.Application.Commands.V1.Categories.CreateCategory

@@ -9,7 +9,7 @@ namespace Examination.Domain.SeedWork
     public abstract class Entity
     {
         private int? _requestedHashCode;
-        
+
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonElement("_id")]

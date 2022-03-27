@@ -7,7 +7,7 @@
 @inject NavigationManager NavigationManager;
 
 
-<MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">@model.CategoryId</MudText>
+<MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">@model.Content</MudText>
 <MudGrid>
     <MudItem xs="12" sm="12" md="6">
         <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
@@ -23,7 +23,7 @@
                                   @bind-Value="model.Content" For="@(() => model.Content)" />
 
                     <MudTextField Label="URL Path" HelperText="Example: csharp-programming"
-                                  @bind-Value="model.CategoryId" For="@(() => model.CategoryId)" />
+                                  @bind-Value="model.Explain" For="@(() => model.Explain)" />
 
                 </MudCardContent>
                 <MudCardActions>
@@ -55,7 +55,7 @@
         if (success)
         {
             Snackbar.Add("Update item success", Severity.Success);
-            NavigationManager.NavigateTo(UrlConstants.Questions);
+            NavigationManager.NavigateTo(UrlConstants.Categories);
         }
         else
         {
@@ -70,7 +70,7 @@
         var item = await QuestionService.GetQuestionByIdAsync(Id);
         model.Id = item.Id;
         model.Content = item.Content;
-        model.CategoryId = item.CategoryId;
+        model.Explain = item.Explain;
         loading = false;
     }
 

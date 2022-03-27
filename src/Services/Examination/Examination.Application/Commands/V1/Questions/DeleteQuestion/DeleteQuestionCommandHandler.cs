@@ -14,7 +14,8 @@ namespace Examination.Application.Commands.V1.Questions.DeleteQuestion
 
         public DeleteQuestionCommandHandler(
                 IQuestionRepository QuestionRepository,
-                ILogger<DeleteQuestionCommandHandler> logger)
+                ILogger<DeleteQuestionCommandHandler> logger
+            )
         {
             _questionRepository = QuestionRepository;
             _logger = logger;

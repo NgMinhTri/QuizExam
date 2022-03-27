@@ -5,8 +5,6 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -44,6 +42,7 @@ namespace Examination.Application.Commands.V1.Questions.UpdateQuestion
             itemToUpdate.CategoryId = request.CategoryId;
             var answers = _mapper.Map<List<AnswerDto>, List<Answer>>(request.Answers);
             itemToUpdate.Answers = answers;
+
             itemToUpdate.Explain = request.Explain;
 
 
