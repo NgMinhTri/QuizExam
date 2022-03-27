@@ -1,6 +1,6 @@
 using System;
 
-namespace Examination.Shared
+namespace Examination.Shared.Exams
 {
     public class ExamDto
     {
