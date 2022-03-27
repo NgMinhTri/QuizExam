@@ -16,5 +16,6 @@ namespace AdminApp.Core
         public const string Login = "/auth/login";
         public const string Dashboard = "/personal/dashboard";
         public const string Categories = "/app/categories";
+        public const string Questions = "/app/questions";
     }
 }

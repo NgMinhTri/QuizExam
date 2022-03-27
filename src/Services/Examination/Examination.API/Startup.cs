@@ -144,11 +144,9 @@ namespace Examination.API
             })
             .AddInMemoryStorage();
 
-                    
-            services.AddTransient<IExamRepository, ExamRepository>();
-            services.AddTransient<IExamResultRepository, ExamResultRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
+
+            //Add custom services
+            services.RegisterCustomServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -162,6 +160,8 @@ namespace Examination.API
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 
