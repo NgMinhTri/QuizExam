@@ -2,7 +2,7 @@ using AutoMapper;
 using Examination.Domain.AggregateModels.CategoryAggregate;
 using Examination.Domain.AggregateModels.ExamAggregate;
 using Examination.Domain.AggregateModels.QuestionAggregate;
-using Examination.Shared;
+using Examination.Shared.Exams;
 using Examination.Shared.Categories;
 using Examination.Shared.Questions;
 

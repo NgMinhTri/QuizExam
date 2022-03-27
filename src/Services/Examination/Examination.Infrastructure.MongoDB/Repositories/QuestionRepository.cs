@@ -1,5 +1,6 @@
 using Examination.Domain.AggregateModels.QuestionAggregate;
 using Examination.Infrastructure.SeedWork;
+using Examination.Shared.SeedWork;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
@@ -22,11 +23,14 @@ namespace Examination.Infrastructure.Repositories
         }
 
 
-        public async Task<Tuple<List<Question>, long>> GetQuestionsPagingAsync(string searchKeyword, int pageIndex, int pageSize)
+        public async Task<PagedList<Question>> GetQuestionsPagingAsync(string categoryId, string searchKeyword, int pageIndex, int pageSize)
         {
             FilterDefinition<Question> filter = Builders<Question>.Filter.Empty;
             if (!string.IsNullOrEmpty(searchKeyword))
-                filter = Builders<Question>.Filter.Eq(s => s.Content, searchKeyword);
+                filter = Builders<Question>.Filter.Where(q => q.Content.Contains(searchKeyword));
+
+            if (!string.IsNullOrEmpty(searchKeyword))
+                filter = Builders<Question>.Filter.Eq(s => s.CategoryId, categoryId);
 
             var totalRow = await Collection.Find(filter).CountDocumentsAsync();
             var items = await Collection.Find(filter)
@@ -34,7 +38,7 @@ namespace Examination.Infrastructure.Repositories
                 .Limit(pageSize)
                 .ToListAsync();
 
-            return new Tuple<List<Question>, long>(items, totalRow);
+            return new PagedList<Question>(items, totalRow, pageIndex, pageSize);
         }
     }
 }

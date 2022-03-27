@@ -24,8 +24,7 @@ namespace Examination.Application.Queries.V1.Questions.GetQuestionsPaging
                 IQuestionRepository QuestionRepository,
                 IMapper mapper,
                 ILogger<GetQuestionsPagingQueryHandler> logger,
-                IClientSessionHandle clientSessionHandle
-            )
+                IClientSessionHandle clientSessionHandle)
         {
             _questionRepository = QuestionRepository ?? throw new ArgumentNullException(nameof(QuestionRepository));
             _clientSessionHandle = clientSessionHandle ?? throw new ArgumentNullException(nameof(_clientSessionHandle));
@@ -38,11 +37,11 @@ namespace Examination.Application.Queries.V1.Questions.GetQuestionsPaging
         {
             _logger.LogInformation("BEGIN: GetHomeExamListQueryHandler");
 
-            var result = await _questionRepository.GetQuestionsPagingAsync(request.SearchKeyword, request.PageIndex, request.PageSize);
-            var items = _mapper.Map<List<QuestionDto>>(result.Item1);
+            var result = await _questionRepository.GetQuestionsPagingAsync(request.CategoryId, request.SearchKeyword, request.PageIndex, request.PageSize);
+            var items = _mapper.Map<List<QuestionDto>>(result.Items);
 
             _logger.LogInformation("END: GetHomeExamListQueryHandler");
-            return new PagedList<QuestionDto>(items, result.Item2, request.PageIndex, request.PageSize);
+            return new PagedList<QuestionDto>(items, result.MetaData.TotalCount, request.PageIndex, request.PageSize);
         }
 
 

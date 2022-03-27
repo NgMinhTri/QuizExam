@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Examination.Domain.AggregateModels.ExamAggregate;
-using Examination.Shared;
+using Examination.Shared.Exams;
 using MediatR;
 using MongoDB.Driver;
 
