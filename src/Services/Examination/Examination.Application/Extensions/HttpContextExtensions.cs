@@ -15,8 +15,7 @@ namespace Examination.Application.Extensions
 
         public static TId GetClaim<TId>(this ClaimsPrincipal principal, string type)
         {
-            if (principal == null || principal.Identity == null ||
-                !principal.Identity.IsAuthenticated)
+            if (principal == null || principal.Identity == null || !principal.Identity.IsAuthenticated)
             {
                 throw new ArgumentNullException(nameof(principal));
             }

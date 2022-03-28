@@ -1,4 +1,6 @@
-﻿namespace Examination.Shared.Questions
+﻿using System;
+
+namespace Examination.Shared.Questions
 {
     public class AnswerDto
     {
@@ -6,5 +8,6 @@
         public string Content { get; set; }
 
         public bool IsCorrect { get; set; }
+        public Guid ClientId { get; set; }
     }
 }
