@@ -9,7 +9,7 @@
       {
         "Username": "admin",
         "Password": "Admin@123$",
-        "Email": "admin@tedu.com.vn",
+        "Email": "minhtripro2903@gmail.com",
         "Roles": [ "Administrator" ],
         "Claims": [
           {
@@ -18,11 +18,11 @@
           },
           {
             "Type": "given_name",
-            "Value": "Toan"
+            "Value": "Tri"
           },
           {
             "Type": "family_name",
-            "Value": "Bach"
+            "Value": "Nguyen"
           }
         ]
       }

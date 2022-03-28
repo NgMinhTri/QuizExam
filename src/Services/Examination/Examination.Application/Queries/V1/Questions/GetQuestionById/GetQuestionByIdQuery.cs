@@ -1,4 +1,4 @@
-﻿using Examination.Dtos.Categories;
+﻿using  Examination.Shared.Categories;
 using Examination.Shared.Questions;
 using MediatR;
 

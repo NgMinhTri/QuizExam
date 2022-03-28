@@ -3,7 +3,7 @@ using Examination.Application.Commands.V1.Questions.DeleteQuestion;
 using Examination.Application.Commands.V1.Questions.UpdateQuestion;
 using Examination.Application.Queries.V1.Questions.GetQuestionById;
 using Examination.Application.Queries.V1.Questions.GetQuestionsPaging;
-using Examination.Dtos.SeedWork;
+using  Examination.Shared.SeedWork;
 using Examination.Shared.Questions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

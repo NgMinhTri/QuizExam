@@ -1,4 +1,4 @@
-﻿using Examination.Dtos.Exams;
+﻿using  Examination.Shared.Exams;
 using MediatR;
 using System;
 using System.Collections.Generic;

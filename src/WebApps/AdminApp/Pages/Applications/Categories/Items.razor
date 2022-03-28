@@ -1,5 +1,6 @@
 ﻿@page "/app/categories"
-@using Examination.Dtos.Categories
+@using Examination.Shared.Categories
+@using Examination.Shared.SeedWork
 @inject ICategoryService CategoryService
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
@@ -46,9 +47,9 @@
     </MudItem>
 </MudGrid>
 
-<MudOverlay Visible="loading" DarkBackground="true" Absolute="true">
+@*<MudOverlay Visible="loading" DarkBackground="true" Absolute="true">
     <MudProgressCircular Color="Color.Secondary" Indeterminate="true" />
-</MudOverlay>
+</MudOverlay>*@
 
 @code{
 
@@ -57,73 +58,67 @@
 
     [CascadingParameter]
     private Error Error { set; get; }
-
-    public bool loading = false;
-
-    private string DeleteId { set; get; }
     private List<CategoryDto> Elements = new List<CategoryDto>();
     public MetaData MetaData { get; set; } = new MetaData();
-
-    private CategorySearch TaskListSearch = new CategorySearch();
-
-
+    private CategorySearch listCategories = new CategorySearch();
 
     protected override async Task OnInitializedAsync()
     {
-        await GetTasks();
+        await GeListCategoriesPaging();
     }
 
-    public async Task SearchData(CategorySearch taskListSearch)
+    private async Task GeListCategoriesPaging()
     {
-        TaskListSearch = taskListSearch;
-        await GetTasks();
-    }
-
-    public async Task OnDeleteTask(string deleteId)
-    {
-        DeleteId = deleteId;
-        var parameters = new DialogParameters();
-        parameters.Add("ContentText", "Do you really want to delete these records? This process cannot be undone.");
-        parameters.Add("ButtonText", "Delete");
-        parameters.Add("Color", Color.Error);
-
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
-
-        var dialog = DialogService.Show<ConfirmationDialog>("Delete", parameters, options);
-        var result = await dialog.Result;
-        if (!result.Cancelled)
-        {
-            await CategoryService.DeleteAsync(DeleteId);
-            await GetTasks();
-        }
-    }
-
-    private async Task GetTasks()
-    {
-        loading = true;
         try
         {
-            var pagingResponse = await CategoryService.GetCategoriesPagingAsync(TaskListSearch);
+            var pagingResponse = await CategoryService.GetCategoriesPagingAsync(listCategories);
             Elements = pagingResponse.Items;
             MetaData = pagingResponse.MetaData;
-            loading = false;
         }
         catch (Exception ex)
         {
             Error.ProcessError(ex);
-            loading = false;
         }
 
-    }
-
-    private async Task SelectedPage(int page)
-    {
-        TaskListSearch.PageNumber = page;
-        await GetTasks();
     }
 
     private void NavigateToEdit(string id)
     {
         NavigationManager.NavigateTo($"/app/categories/details/{id}");
     }
+
+    public async Task OnDeleteTask(string deleteId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete these records? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() 
+        { 
+            CloseButton = true, 
+            MaxWidth = MaxWidth.ExtraSmall 
+        };
+
+        var dialog = DialogService.Show<ConfirmationDialog>("Delete", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await CategoryService.DeleteAsync(deleteId);
+            await GeListCategoriesPaging();
+        }
+    }
+
+    private async Task SelectedPage(int page)
+    {
+        listCategories.PageNumber = page;
+        await GeListCategoriesPaging();
+    }
+
+    public async Task SearchData(CategorySearch listCategoriesSearch)
+    {
+        listCategories = listCategoriesSearch;
+        await GeListCategoriesPaging();
+    }
+   
 }

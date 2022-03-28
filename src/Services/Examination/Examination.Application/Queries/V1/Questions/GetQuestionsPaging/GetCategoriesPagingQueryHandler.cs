@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Examination.Domain.AggregateModels.QuestionAggregate;
-using Examination.Dtos.SeedWork;
+using Examination.Shared.SeedWork;
 using Examination.Shared.Questions;
 using MediatR;
 using Microsoft.Extensions.Logging;

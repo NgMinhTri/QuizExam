@@ -38,7 +38,7 @@
                                 <MudTd DataLabel="Name">@context.DateCreated.ToString("dd/MM/yyyy hh:mm")</MudTd>
                                 <MudTd>
                                     <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="()=>NavigateToEdit(context.Id)" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Class="ma-2" />
-                                    <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async ()=>await OnDeleteTask(context.Id)" Variant="Variant.Filled" Color="Color.Error" Size="Size.Large" Class="ma-2" />
+                                    <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async ()=>await OnDeleteQuestion(context.Id)" Variant="Variant.Filled" Color="Color.Error" Size="Size.Large" Class="ma-2" />
 
                                 </MudTd>
                             </RowTemplate>
@@ -73,47 +73,19 @@
     private string DeleteId { set; get; }
     private List<QuestionDto> Elements = new List<QuestionDto>();
     public MetaData MetaData { get; set; } = new MetaData();
-
-    private QuestionSearch ListSearch = new QuestionSearch();
-
-
+    private QuestionSearch listQuestions = new QuestionSearch();
 
     protected override async Task OnInitializedAsync()
     {
-        await GetTasks();
+        await GetListQuestionPaging();
     }
 
-    public async Task SearchData(QuestionSearch taskListSearch)
-    {
-        ListSearch = taskListSearch;
-        await GetTasks();
-    }
-
-    public async Task OnDeleteTask(string deleteId)
-    {
-        DeleteId = deleteId;
-        var parameters = new DialogParameters();
-        parameters.Add("ContentText", "Do you really want to delete these records? This process cannot be undone.");
-        parameters.Add("ButtonText", "Delete");
-        parameters.Add("Color", Color.Error);
-
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
-
-        var dialog = DialogService.Show<ConfirmationDialog>("Delete", parameters, options);
-        var result = await dialog.Result;
-        if (!result.Cancelled)
-        {
-            await QuestionService.DeleteAsync(DeleteId);
-            await GetTasks();
-        }
-    }
-
-    private async Task GetTasks()
+    private async Task GetListQuestionPaging()
     {
         loading = true;
         try
         {
-            var pagingResponse = await QuestionService.GetQuestionsPagingAsync(ListSearch);
+            var pagingResponse = await QuestionService.GetQuestionsPagingAsync(listQuestions);
             Elements = pagingResponse.Items;
             MetaData = pagingResponse.MetaData;
             loading = false;
@@ -126,14 +98,45 @@
 
     }
 
-    private async Task SelectedPage(int page)
-    {
-        ListSearch.PageNumber = page;
-        await GetTasks();
-    }
-
     private void NavigateToEdit(string id)
     {
-        NavigationManager.NavigateTo($"/app/categories/details/{id}");
+        NavigationManager.NavigateTo($"/app/questions/details/{id}");
+    }
+
+    public async Task OnDeleteQuestion(string deleteId)
+    {
+        DeleteId = deleteId;
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete these records? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() 
+        { 
+            CloseButton = true, 
+            MaxWidth = MaxWidth.ExtraSmall 
+        };
+
+        var dialog = DialogService.Show<ConfirmationDialog>("Delete", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await QuestionService.DeleteAsync(DeleteId);
+            await GetListQuestionPaging();
+        }
+    }
+
+    //Tìm kiếm theo điều kiện
+    public async Task SearchData(QuestionSearch listQuestionSearch)
+    {
+        listQuestions = listQuestionSearch;
+        await GetListQuestionPaging();
+    }
+
+    //Chọn trang
+    private async Task SelectedPage(int page)
+    {
+        listQuestions.PageNumber = page;
+        await GetListQuestionPaging();
     }
 }

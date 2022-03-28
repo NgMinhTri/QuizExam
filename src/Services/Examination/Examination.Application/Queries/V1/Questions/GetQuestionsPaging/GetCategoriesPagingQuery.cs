@@ -1,5 +1,4 @@
-﻿using Examination.Dtos.Categories;
-using Examination.Dtos.SeedWork;
+﻿using Examination.Shared.SeedWork;
 using Examination.Shared.Questions;
 using MediatR;
 
