@@ -1,8 +1,5 @@
 ﻿using Examination.Shared.Categories;
 using Examination.Shared.SeedWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AdminApp.Services.Interfaces

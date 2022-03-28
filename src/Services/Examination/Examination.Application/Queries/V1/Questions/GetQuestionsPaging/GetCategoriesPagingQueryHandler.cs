@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Examination.Domain.AggregateModels.QuestionAggregate;
-using Examination.Shared.Questions;
 using Examination.Shared.SeedWork;
+using Examination.Shared.Questions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
@@ -15,7 +15,7 @@ namespace Examination.Application.Queries.V1.Questions.GetQuestionsPaging
     public class GetQuestionsPagingQueryHandler : IRequestHandler<GetQuestionsPagingQuery, PagedList<QuestionDto>>
     {
 
-        private readonly IQuestionRepository _questionRepository;
+        private readonly IQuestionRepository _QuestionRepository;
         private readonly IClientSessionHandle _clientSessionHandle;
         private readonly IMapper _mapper;
         private readonly ILogger<GetQuestionsPagingQueryHandler> _logger;
@@ -24,9 +24,10 @@ namespace Examination.Application.Queries.V1.Questions.GetQuestionsPaging
                 IQuestionRepository QuestionRepository,
                 IMapper mapper,
                 ILogger<GetQuestionsPagingQueryHandler> logger,
-                IClientSessionHandle clientSessionHandle)
+                IClientSessionHandle clientSessionHandle
+            )
         {
-            _questionRepository = QuestionRepository ?? throw new ArgumentNullException(nameof(QuestionRepository));
+            _QuestionRepository = QuestionRepository ?? throw new ArgumentNullException(nameof(QuestionRepository));
             _clientSessionHandle = clientSessionHandle ?? throw new ArgumentNullException(nameof(_clientSessionHandle));
             _mapper = mapper;
             _logger = logger;
@@ -37,13 +38,15 @@ namespace Examination.Application.Queries.V1.Questions.GetQuestionsPaging
         {
             _logger.LogInformation("BEGIN: GetHomeExamListQueryHandler");
 
-            var result = await _questionRepository.GetQuestionsPagingAsync(request.CategoryId, request.SearchKeyword, request.PageIndex, request.PageSize);
+            var result = await _QuestionRepository.GetQuestionsPagingAsync(request.CategoryId, 
+                request.SearchKeyword,
+                request.PageIndex,
+                request.PageSize);
+
             var items = _mapper.Map<List<QuestionDto>>(result.Items);
 
             _logger.LogInformation("END: GetHomeExamListQueryHandler");
             return new PagedList<QuestionDto>(items, result.MetaData.TotalCount, request.PageIndex, request.PageSize);
         }
-
-
     }
 }

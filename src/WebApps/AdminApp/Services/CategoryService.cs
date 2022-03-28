@@ -1,13 +1,12 @@
-﻿using AdminApp.Services.Interfaces;
-using Examination.Shared.Categories;
-using Examination.Shared.SeedWork;
+﻿using  Examination.Shared.Categories;
+using  Examination.Shared.SeedWork;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace AdminApp.Services
+namespace AdminApp.Services.Interfaces
 {
     public class CategoryService : ICategoryService
     {

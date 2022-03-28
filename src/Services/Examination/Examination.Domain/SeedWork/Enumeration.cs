@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Examination.Domain.SeedWork
 {
-     public abstract class Enumeration : IComparable
+    public abstract class Enumeration : IComparable
     {
         public string Name { get; private set; }
 

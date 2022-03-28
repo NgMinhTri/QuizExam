@@ -8,7 +8,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Examination.Domain.AggregateModels.ExamAggregate
 {
-     public class Exam : Entity, IAggregateRoot
+    public class Exam : Entity, IAggregateRoot
     {
         public Exam(string name, string shortDesc, string content, int numberOfQuestions, TimeSpan duration,
             IEnumerable<Question> questions, Level level, string ownerUserId, int numberOfQuestionCorrectForPass,

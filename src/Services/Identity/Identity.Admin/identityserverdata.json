@@ -177,7 +177,7 @@
         "RequireClientSecret": false,
         "RequirePkce": true,
         "RedirectUris": [ "https://localhost:5003/swagger/oauth2-redirect.html" ],
-        "AllowedScopes": [ "identity_api" ],
+        "AllowedScopes": [ "exam_api" ],
         "AllowedCorsOrigins": [ "https://localhost:5003" ]
       }
     ]

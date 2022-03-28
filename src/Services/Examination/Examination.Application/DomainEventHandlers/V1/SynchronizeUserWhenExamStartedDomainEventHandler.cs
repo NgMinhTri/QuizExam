@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Examination.Application.DomainEventHandlers
 {
-   public class SynchronizeUserWhenExamStartedDomainEventHandler : INotificationHandler<ExamStartedDomainEvent>
+    public class SynchronizeUserWhenExamStartedDomainEventHandler : INotificationHandler<ExamStartedDomainEvent>
     {
         private readonly IUserRepository _userRepository;
         public SynchronizeUserWhenExamStartedDomainEventHandler(

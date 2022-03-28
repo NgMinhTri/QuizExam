@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Examination.Application.Commands.V1.Exams.StartExam
 {
-    public class StartExamCommand :IRequest<bool>
+    public class StartExamCommand : IRequest<bool>
     {
         public string UserId { get; set; }
 

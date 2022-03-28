@@ -1,27 +1,25 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Examination.Domain.AggregateModels.CategoryAggregate;
-using Examination.Domain.AggregateModels.ExamAggregate;
-using Examination.Domain.AggregateModels.QuestionAggregate;
-using Examination.Shared.Enums;
-using Examination.Infrastructure.SeedWork;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using MongoDB.Bson;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Polly;
 using Polly.Retry;
+using Examination.Infrastructure.SeedWork;
+using System.Collections.Generic;
+using Examination.Domain.AggregateModels.CategoryAggregate;
+using Examination.Domain.AggregateModels.QuestionAggregate;
+using Examination.Domain.AggregateModels.ExamAggregate;
+using System.Linq;
+using Examination.Shared.Enums;
 
 namespace Examination.Infrastructure
 {
     public class ExamMongoDbSeeding
     {
-         public async Task SeedAsync(
-            IMongoClient mongoClient, 
-            IOptions<ExamSettings> settings,
-            ILogger<ExamMongoDbSeeding> logger)
+        public async Task SeedAsync(IMongoClient mongoClient, IOptions<ExamSettings> settings,
+               ILogger<ExamMongoDbSeeding> logger)
         {
             var policy = CreatePolicy(logger, nameof(ExamMongoDbSeeding));
             await policy.ExecuteAsync(async () =>
@@ -32,9 +30,9 @@ namespace Examination.Infrastructure
                 var categoryId2 = ObjectId.GenerateNewId().ToString();
                 var categoryId3 = ObjectId.GenerateNewId().ToString();
                 var categoryId4 = ObjectId.GenerateNewId().ToString();
-                if (await database.GetCollection<Category>(Constants.Category).EstimatedDocumentCountAsync() == 0)
+                if (await database.GetCollection<Category>(Constants.Collections.Category).EstimatedDocumentCountAsync() == 0)
                 {
-                    await database.GetCollection<Category>(Constants.Category)
+                    await database.GetCollection<Category>(Constants.Collections.Category)
                         .InsertManyAsync(new List<Category>()
                         {
                             new Category(categoryId1,"Category 1","category-1"),
@@ -43,16 +41,16 @@ namespace Examination.Infrastructure
                             new Category(categoryId4,"Category 4","category-4"),
                         });
                 }
-                if (await database.GetCollection<Question>(Constants.Question).EstimatedDocumentCountAsync() ==
+                if (await database.GetCollection<Question>(Constants.Collections.Question).EstimatedDocumentCountAsync() ==
                     0)
                 {
-                    await database.GetCollection<Question>(Constants.Question)
+                    await database.GetCollection<Question>(Constants.Collections.Question)
                         .InsertManyAsync(GetPredefinedQuestions(categoryId1));
                 }
-                if (await database.GetCollection<Exam>(Constants.Exam).EstimatedDocumentCountAsync() ==
+                if (await database.GetCollection<Exam>(Constants.Collections.Exam).EstimatedDocumentCountAsync() ==
                     0)
                 {
-                    await database.GetCollection<Exam>(Constants.Exam)
+                    await database.GetCollection<Exam>(Constants.Collections.Exam)
                         .InsertManyAsync(GetPredefinedExams(categoryId1));
                 }
             });

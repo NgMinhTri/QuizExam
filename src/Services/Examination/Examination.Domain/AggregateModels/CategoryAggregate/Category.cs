@@ -7,9 +7,11 @@ namespace Examination.Domain.AggregateModels.CategoryAggregate
     public class Category : Entity, IAggregateRoot
     {
         public Category(string id, string name, string urlPath) => (Id, Name, UrlPath) = (id, name, urlPath);
+
         [BsonElement("name")]
-        public string Name {get; set;}
+        public string Name { get; set; }
+
         [BsonElement("urlPath")]
-        public string UrlPath {get; set;}
+        public string UrlPath { set; get; } //domain/exam-category-1/
     }
 }
