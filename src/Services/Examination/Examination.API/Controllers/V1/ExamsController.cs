@@ -24,10 +24,10 @@ namespace Examination.API.Controllers.V1
             _logger.LogInformation("BEGIN: GetExamList");
 
             var query = new GetHomeExamListQuery();
-            var queryResult = await _mediator.Send(query);
+            var result = await _mediator.Send(query);
 
             _logger.LogInformation("END: GetExamList");
-            return Ok(queryResult);
+            return Ok(result);
         }
 
     }
