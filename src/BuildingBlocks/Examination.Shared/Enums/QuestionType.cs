@@ -1,6 +1,6 @@
 namespace Examination.Shared.Enums
 {
-     public enum QuestionType
+    public enum QuestionType
     {
         SingleSelection,
         MultipleSelection

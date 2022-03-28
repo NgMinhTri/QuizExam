@@ -1,16 +1,16 @@
-using System;
-using System.IO;
 using System.Reflection;
-using Examination.Infrastructure;
-using Examination.Infrastructure.SeedWork;
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using System;
+using Microsoft.Extensions.DependencyInjection;
+using Examination.Infrastructure;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Serilog;
+using Examination.Infrastructure.SeedWork;
 
 namespace Examination.API
 {
@@ -21,14 +21,15 @@ namespace Examination.API
             string appName = typeof(Startup).Namespace;
             var configuration = GetConfiguration();
 
-             Log.Logger = CreateSerilogLogger(configuration);
+            Log.Logger = CreateSerilogLogger(configuration);
             try
             {
                 Log.Information("Starting web host ({ApplicationContext})...", appName);
 
-                var host = CreateHostBuilder(configuration ,args).Build();
+                var host = CreateHostBuilder(configuration, args).Build();
 
                 Log.Information("Apply configuration web host ({ApplicationContext})...", appName);
+
                 using (var scope = host.Services.CreateScope())
                 {
                     var services = scope.ServiceProvider;
@@ -52,11 +53,11 @@ namespace Examination.API
                 return 1;
             }
 
-               // Create a logger object
+            // Create a logger object
             Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
             {
                 return new LoggerConfiguration()
-                    .MinimumLevel.Verbose()
+                    .MinimumLevel.Information()
                     .Enrich.WithProperty("ApplicationContext", appName)
                     .Enrich.FromLogContext()
                     .WriteTo.Console()
@@ -78,11 +79,10 @@ namespace Examination.API
             }
         }
 
-        public static IHostBuilder CreateHostBuilder(IConfiguration configuration,string[] args) =>
+        public static IHostBuilder CreateHostBuilder(IConfiguration configuration, string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    //cau hinh Seeding vao MongoDB
                     webBuilder.CaptureStartupErrors(false);
                     webBuilder.ConfigureAppConfiguration(x => x.AddConfiguration(configuration));
 

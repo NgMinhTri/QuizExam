@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Examination.Application.Commands.V1.Exams.StartExam
 {
-     public class StartExamCommandHandler : IRequestHandler<StartExamCommand, bool>
+    public class StartExamCommandHandler : IRequestHandler<StartExamCommand, bool>
     {
         private readonly IExamResultRepository _examResultRepository;
         public StartExamCommandHandler(IExamResultRepository examResultRepository)

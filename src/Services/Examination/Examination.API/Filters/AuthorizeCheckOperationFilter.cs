@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Examination.API.Filters
 {
-     public class AuthorizeCheckOperationFilter : IOperationFilter
+    public class AuthorizeCheckOperationFilter : IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {

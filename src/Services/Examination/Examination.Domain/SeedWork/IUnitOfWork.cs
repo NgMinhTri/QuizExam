@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Examination.Domain.SeedWork
 {
-     public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         Task SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }

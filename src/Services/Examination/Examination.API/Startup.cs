@@ -6,15 +6,9 @@ using System.Text.Json;
 using Examination.API.Filters;
 using Examination.Application.Commands.V1.Exams.StartExam;
 using Examination.Application.Mapping;
-using Examination.Domain.AggregateModels.CategoryAggregate;
-using Examination.Domain.AggregateModels.ExamAggregate;
-using Examination.Domain.AggregateModels.ExamResultAggregate;
-using Examination.Domain.AggregateModels.UserAggregate;
-using Examination.Infrastructure.Repositories;
 using Examination.Infrastructure.SeedWork;
 using HealthChecks.UI.Client;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +17,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 
@@ -46,34 +39,32 @@ namespace Examination.API
             var server = Configuration.GetValue<string>("DatabaseSettings:Server");
             var databaseName = Configuration.GetValue<string>("DatabaseSettings:DatabaseName");
             var mongodbConnectionString = "mongodb://" + user + ":" + password + "@" + server + "/" + databaseName + "?authSource=admin";
-            //Cấu hình API Version
             services.AddApiVersioning(options =>
             {
                 options.ReportApiVersions = true;
             });
+            services.AddVersionedApiExplorer(
+                           options =>
+                           {
+                               // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
+                               // note: the specified format code will format the version as "'v'major[.minor][-status]"
+                               options.GroupNameFormat = "'v'VVV";
 
-            services.AddVersionedApiExplorer(options =>
-            {
-                // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
-                // note: the specified format code will format the version as "'v'major[.minor][-status]"
-                options.GroupNameFormat = "'v'VVV";
+                               // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
+                               // can also be used to control the format of the API version in route templates
+                               options.SubstituteApiVersionInUrl = true;
+                           });
 
-                // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
-                // can also be used to control the format of the API version in route templates
-                options.SubstituteApiVersionInUrl = true;
-            });  
-            
             services.AddSingleton<IMongoClient>(c =>
             {
                 return new MongoClient(mongodbConnectionString);
             });
-            services.AddScoped(c => c.GetService<IMongoClient>()?.StartSession());
 
+            services.AddScoped(c => c.GetService<IMongoClient>()?.StartSession());
             services.AddAutoMapper(cfg => { cfg.AddProfile(new MappingProfile()); });
             services.AddMediatR(typeof(StartExamCommandHandler).Assembly);
             services.AddControllers();
-
-             services.AddCors(options =>
+            services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
                     builder => builder
@@ -85,9 +76,10 @@ namespace Examination.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Examination.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Examination.API V1", Version = "v1" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Title = "Examination.API V2", Version = "v2" });
 
-                 c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
                     Type = SecuritySchemeType.OAuth2,
                     Flows = new OpenApiOAuthFlows()
@@ -104,19 +96,22 @@ namespace Examination.API
                     }
                 });
                 c.OperationFilter<AuthorizeCheckOperationFilter>();
+
             });
 
             var identityUrl = Configuration.GetValue<string>("IdentityUrl");
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults
+                    .AuthenticationScheme;
+                options.DefaultChallengeScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults
+                    .AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
                 options.Authority = identityUrl;
                 options.RequireHttpsMetadata = false;
                 options.Audience = "exam_api";
-                options.TokenValidationParameters = new TokenValidationParameters()
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
                 {
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = false,
@@ -124,7 +119,8 @@ namespace Examination.API
                 };
             });
 
-            
+
+
             services.Configure<ExamSettings>(Configuration);
 
             //Health check
@@ -135,17 +131,15 @@ namespace Examination.API
                                 failureStatus: HealthStatus.Unhealthy);
 
             services.AddHealthChecksUI(opt =>
-            {
-                opt.SetEvaluationTimeInSeconds(15); //time in seconds between check
-                opt.MaximumHistoryEntriesPerEndpoint(60); //maximum history of checks
-                opt.SetApiMaxActiveRequests(1); //api requests concurrency
+                    {
+                        opt.SetEvaluationTimeInSeconds(15); //time in seconds between check
+                        opt.MaximumHistoryEntriesPerEndpoint(60); //maximum history of checks
+                        opt.SetApiMaxActiveRequests(1); //api requests concurrency
 
-                opt.AddHealthCheckEndpoint("Exam API", "/hc"); //map health check api
-            })
-            .AddInMemoryStorage();
+                        opt.AddHealthCheckEndpoint("Exam API", "/hc"); //map health check api
+                    })
+                    .AddInMemoryStorage();
 
-
-            //Add custom services
             services.RegisterCustomServices();
         }
 
@@ -156,19 +150,18 @@ namespace Examination.API
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Examination.API v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Examination.API v1");
+                    c.SwaggerEndpoint("/swagger/v2/swagger.json", "Examination.API v2");
+                });
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthentication();
-
             app.UseRouting();
-
             app.UseCors("CorsPolicy");
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
@@ -197,6 +190,7 @@ namespace Examination.API
                                 }
                             }
                         );
+
                 endpoints.MapControllers();
             });
         }
