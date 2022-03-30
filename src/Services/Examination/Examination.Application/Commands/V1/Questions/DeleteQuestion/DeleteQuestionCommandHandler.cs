@@ -15,8 +15,7 @@ namespace Examination.Application.Commands.V1.Questions.DeleteQuestion
 
         public DeleteQuestionCommandHandler(
                 IQuestionRepository QuestionRepository,
-                ILogger<DeleteQuestionCommandHandler> logger
-            )
+                ILogger<DeleteQuestionCommandHandler> logger)
         {
             _questionRepository = QuestionRepository;
             _logger = logger;
@@ -28,11 +27,11 @@ namespace Examination.Application.Commands.V1.Questions.DeleteQuestion
             var itemToUpdate = await _questionRepository.GetQuestionsByIdAsync(request.Id);
             if (itemToUpdate == null)
             {
-                return new ApiErrorResult<bool>($"Item is not found {request.Id}");
+                return new ApiErrorResult<bool>(400, $"Item is not found {request.Id}");
             }
 
             await _questionRepository.DeleteAsync(request.Id);
-            return new ApiSuccessResult<bool>(true, "Delete question successfully");
+            return new ApiSuccessResult<bool>(200, true, "Delete question successfully");
 
         }
     }

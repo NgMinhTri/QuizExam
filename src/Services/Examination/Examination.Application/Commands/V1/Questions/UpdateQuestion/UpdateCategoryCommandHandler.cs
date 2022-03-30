@@ -33,7 +33,7 @@ namespace Examination.Application.Commands.V1.Questions.UpdateQuestion
             var itemToUpdate = await _questionRepository.GetQuestionsByIdAsync(request.Id);
             if (itemToUpdate == null)
             {
-                return new ApiErrorResult<bool>($"Item is not found {request.Id}");
+                return new ApiErrorResult<bool>(400, $"Item is not found {request.Id}");
             }
 
             itemToUpdate.Content = request.Content;
@@ -45,7 +45,7 @@ namespace Examination.Application.Commands.V1.Questions.UpdateQuestion
             itemToUpdate.Explain = request.Explain;
 
             await _questionRepository.UpdateAsync(itemToUpdate);
-            return new ApiSuccessResult<bool>(true, "Update question successfully");
+            return new ApiSuccessResult<bool>(200,true, "Update question successfully");
         }
     }
 }

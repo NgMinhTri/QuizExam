@@ -28,10 +28,10 @@ namespace Examination.Application.Commands.V1.Categories.DeleteCategory
             if (itemToUpdate == null)
             {
                 _logger.LogError($"Item is not found {request.Id}");
-                return new ApiErrorResult<bool>("Item is not found {request.Id}");
+                return new ApiErrorResult<bool>(400, "Item is not found {request.Id}");
             }
             await _categoryRepository.DeleteAsync(request.Id);
-            return new ApiSuccessResult<bool>(true, "Delete successful");
+            return new ApiSuccessResult<bool>(200, true, "Delete successful");
         }
     }
 }

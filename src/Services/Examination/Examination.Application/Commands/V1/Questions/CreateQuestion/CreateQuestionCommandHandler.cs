@@ -41,7 +41,7 @@ namespace Examination.Application.Commands.V1.Questions.CreateQuestion
         {
             if (request.Answers?.Count(x => x.IsCorrect) > 1 && request.QuestionType == Shared.Enums.QuestionType.SingleSelection)
             {
-                return new ApiErrorResult<QuestionDto>("Single choice question cannot have multiple correct answers.");
+                return new ApiErrorResult<QuestionDto>(400, "Single choice question cannot have multiple correct answers.");
             }
             var category = await _categoryRepository.GetCategoriesByIdAsync(request.CategoryId);
 
@@ -66,7 +66,7 @@ namespace Examination.Application.Commands.V1.Questions.CreateQuestion
                                     category.Name);
             await _questionRepository.InsertAsync(itemToAdd);
             var result = _mapper.Map<Question, QuestionDto>(itemToAdd);
-            return new ApiSuccessResult<QuestionDto>(result);
+            return new ApiSuccessResult<QuestionDto>(200, result);
         }
     }
 }

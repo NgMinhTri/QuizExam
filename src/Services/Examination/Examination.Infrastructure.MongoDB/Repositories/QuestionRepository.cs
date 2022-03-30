@@ -4,6 +4,8 @@ using Examination.Shared.SeedWork;
 using Examination.Infrastructure.SeedWork;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Collections.Generic;
+using Examination.Shared.Enums;
 
 namespace Examination.Infrastructure.Repositories
 {
@@ -40,5 +42,15 @@ namespace Examination.Infrastructure.Repositories
 
             return new PagedList<Question>(items,totalRow,pageIndex,pageSize);
         }
+
+        public async Task<List<Question>> GetRandomQuestionsForExamAsync(string categoryId, Level level, int numberOfQuestions)
+        {
+            var filter = Builders<Question>.Filter.Where(s => s.CategoryId == categoryId && s.Level == level);
+            var items = await Collection.Find(filter)
+                .Limit(numberOfQuestions)
+                .ToListAsync();
+            return items;
+        }
+       
     }
 }
