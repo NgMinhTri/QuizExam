@@ -29,13 +29,13 @@ namespace AdminApp.Services.Interfaces
             return result.IsSuccessStatusCode;
         }
 
-        public async Task<QuestionDto> GetQuestionByIdAsync(string id)
+        public async Task<ApiResult<QuestionDto>> GetQuestionByIdAsync(string id)
         {
-            var result = await _httpClient.GetFromJsonAsync<QuestionDto>($"/api/v1/Questions/{id}");
+            var result = await _httpClient.GetFromJsonAsync<ApiSuccessResult<QuestionDto>>($"/api/v1/Questions/{id}");
             return result;
         }
 
-        public async Task<PagedList<QuestionDto>> GetQuestionsPagingAsync(QuestionSearch searchInput)
+        public async Task<ApiResult<PagedList<QuestionDto>>> GetQuestionsPagingAsync(QuestionSearch searchInput)
         {
             var queryStringParam = new Dictionary<string, string>
             {
@@ -46,10 +46,12 @@ namespace AdminApp.Services.Interfaces
             if (!string.IsNullOrEmpty(searchInput.Name))
                 queryStringParam.Add("searchKeyword", searchInput.Name);
 
+            if (!string.IsNullOrEmpty(searchInput.CategoryId))
+                queryStringParam.Add("categoryId", searchInput.CategoryId);
 
             string url = QueryHelpers.AddQueryString("/api/v1/Questions", queryStringParam);
 
-            var result = await _httpClient.GetFromJsonAsync<PagedList<QuestionDto>>(url);
+            var result = await _httpClient.GetFromJsonAsync<ApiSuccessResult<PagedList<QuestionDto>>>(url);
             return result;
         }
 
