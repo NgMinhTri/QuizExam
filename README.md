@@ -30,11 +30,11 @@
 - https://robomongo.org/
 
 
-## NET extensions for VS Code
-- NET Core Add Reference
-- NET Core Test Explorer
-- NET Core Tool
-- NET Core User Secrets
+## .NET extensions for VS Code
+- .NET Core Add Reference
+- .NET Core Test Explorer
+- .NET Core Tool
+- .NET Core User Secrets
 - C#
 - C# Extensions
 - NuGet Gallery
