@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Examination.Application.Queries.V1.Categories.GetCategoriesPaging
 {
-    public class GetCategoriesPagingQueryHandler : IRequestHandler<GetCategoriesPagingQuery, PagedList<CategoryDto>>
+    public class GetCategoriesPagingQueryHandler : IRequestHandler<GetCategoriesPagingQuery, ApiResult<PagedList<CategoryDto>>>
     {
 
         private readonly ICategoryRepository _categoryRepository;
@@ -26,8 +26,7 @@ namespace Examination.Application.Queries.V1.Categories.GetCategoriesPaging
                 ICategoryRepository categoryRepository,
                 IMapper mapper,
                 ILogger<GetCategoriesPagingQueryHandler> logger,
-                IClientSessionHandle clientSessionHandle
-            )
+                IClientSessionHandle clientSessionHandle)
         {
             _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
             _clientSessionHandle = clientSessionHandle ?? throw new ArgumentNullException(nameof(_clientSessionHandle));
@@ -36,15 +35,16 @@ namespace Examination.Application.Queries.V1.Categories.GetCategoriesPaging
 
         }
 
-        public async Task<PagedList<CategoryDto>> Handle(GetCategoriesPagingQuery request, CancellationToken cancellationToken)
+        public async Task<ApiResult<PagedList<CategoryDto>>> Handle(GetCategoriesPagingQuery request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("BEGIN: GetHomeExamListQueryHandler");
+            _logger.LogInformation("BEGIN: GetCategoryListPagingQueryHandler");
 
             var result = await _categoryRepository.GetCategoriesPagingAsync(request.SearchKeyword, request.PageIndex, request.PageSize);
-            var items = _mapper.Map<List<CategoryDto>>(result.Item1);
+            var items = _mapper.Map<List<CategoryDto>>(result.Items);
 
-            _logger.LogInformation("END: GetHomeExamListQueryHandler");
-            return new PagedList<CategoryDto>(items, result.Item2, request.PageIndex, request.PageSize);
+            _logger.LogInformation("END: GetCategoryListPagingQueryHandler");
+            var pagedResult = new PagedList<CategoryDto>(items, result.MetaData.TotalCount, request.PageIndex, request.PageSize);
+            return new ApiSuccessResult<PagedList<CategoryDto>>(200, pagedResult);
         }
     }
 }

@@ -7,3 +7,4 @@ namespace Examination.Shared.Categories
         public string Name { get; set; }
     }
 }
+

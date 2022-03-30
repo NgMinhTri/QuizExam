@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Text.Json;
+using Examination.API.Extensions;
 using Examination.API.Filters;
 using Examination.Application.Commands.V1.Exams.StartExam;
 using Examination.Application.Mapping;
@@ -39,6 +40,9 @@ namespace Examination.API
             var server = Configuration.GetValue<string>("DatabaseSettings:Server");
             var databaseName = Configuration.GetValue<string>("DatabaseSettings:DatabaseName");
             var mongodbConnectionString = "mongodb://" + user + ":" + password + "@" + server + "/" + databaseName + "?authSource=admin";
+
+            services.AddHttpContextAccessor();
+
             services.AddApiVersioning(options =>
             {
                 options.ReportApiVersions = true;
@@ -156,7 +160,7 @@ namespace Examination.API
                     c.SwaggerEndpoint("/swagger/v2/swagger.json", "Examination.API v2");
                 });
             }
-
+            app.UseErrorWrapping();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseRouting();
