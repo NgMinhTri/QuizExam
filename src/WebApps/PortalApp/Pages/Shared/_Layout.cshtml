@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="/css/fancybox.css">
     <link rel="stylesheet" href="/css/tooltipster.bundle.css">
     <link rel="stylesheet" href="/css/style.css">
+     <link href="~/css/quizexam.css" rel="stylesheet" />
     <!-- end inject -->
 </head>
 <body>
@@ -34,8 +35,6 @@
 <partial name="_Header" />
 @RenderBody()
 <partial name="_Footer" />
-
-
 
 <!-- template js files -->
 <script src="/js/jquery-3.4.1.min.js"></script>
@@ -52,7 +51,7 @@
 <script src="/js/jquery.lazy.min.js"></script>
 <script src="/js/main.js"></script>
 
-@RenderSectionAsync("Script", required: false);
+  @RenderSectionAsync("Scripts", required: false)
 </body>
 
 <!-- Mirrored from techydevs.com/demos/themes/html/aduca-demo/aduca/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Aug 2021 14:00:32 GMT -->
