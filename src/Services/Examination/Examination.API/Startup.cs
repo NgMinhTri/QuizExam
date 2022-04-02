@@ -5,7 +5,7 @@ using System.Net.Mime;
 using System.Text.Json;
 using Examination.API.Extensions;
 using Examination.API.Filters;
-using Examination.Application.Commands.V1.Exams.StartExam;
+using Examination.Application.Commands.V1.ExamResults.StartExam;
 using Examination.Application.Mapping;
 using Examination.Infrastructure.SeedWork;
 using HealthChecks.UI.Client;
@@ -156,6 +156,7 @@ namespace Examination.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
+                    c.OAuthClientId("exam_api_swaggerui");
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Examination.API v1");
                     c.SwaggerEndpoint("/swagger/v2/swagger.json", "Examination.API v2");
                 });
