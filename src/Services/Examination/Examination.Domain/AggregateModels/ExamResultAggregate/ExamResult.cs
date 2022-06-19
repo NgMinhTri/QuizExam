@@ -13,6 +13,9 @@ namespace Examination.Domain.AggregateModels.ExamResultAggregate
         [BsonElement("examId")]
         public string ExamId { get; set; }
 
+        [BsonElement("examTitle")]
+        public string ExamTitle { get; set; }
+
         [BsonElement("userId")]
         public string UserId { set; get; }
 
