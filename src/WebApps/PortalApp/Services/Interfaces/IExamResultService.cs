@@ -11,5 +11,6 @@ namespace PortalApp.Services.Interfaces
         Task<ApiResult<bool>> SkipExamAsync(SkipExamRequest request);
         Task<ApiResult<ExamResultDto>> FinishExamAsync(FinishExamRequest request);
         Task<ApiResult<ExamResultDto>> StartExamAsync(StartExamRequest request);
+        Task<ApiResult<PagedList<ExamResultDto>>> GetExamResultsByUserIdPagingAsync(PagingParameters request);
     }
 }
