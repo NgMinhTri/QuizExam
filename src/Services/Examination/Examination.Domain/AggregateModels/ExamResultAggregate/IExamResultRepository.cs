@@ -8,5 +8,6 @@ namespace Examination.Domain.AggregateModels.ExamResultAggregate
     {
         Task<ExamResult> GetDetails(string id);
         Task<PagedList<ExamResult>> GetExamResultsByUserIdPagingAsync(string userId, int pageIndex, int pageSize);
+        Task<PagedList<ExamResult>> GetExamResultsPagingAsync(string searchKeyword, int pageIndex, int pageSize);
     }
 }
